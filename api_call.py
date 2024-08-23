@@ -7,9 +7,9 @@ import sys
 import time
 import requests as r
 
-access_key = "572109f6125041064e239e4683660a82"
-access_secret = "g3M1cYHRsukqrB1ah5P79EkwPrbGS0VmL6AtrUZl"
-requrl = "https://identify-ap-southeast-1.acrcloud.com/v1/identify"
+access_key = "###YOUR_ACCESS_KEY###"
+access_secret = "###YOUR_ACCESS_SECRET###"
+requrl = "https://###HOST###/v1/identify"
 
 http_method = "POST"
 http_uri = "/v1/identify"
