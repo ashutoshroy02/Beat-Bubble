@@ -8,8 +8,8 @@ def make_api_call(filename):
     import time
     import requests as r
 
-    access_key = "572109f6125041064e239e4683660a82"
-    access_secret = "g3M1cYHRsukqrB1ah5P79EkwPrbGS0VmL6AtrUZl"
+    access_key = "b86e8e91257ec0cac71546cd036b5cf5"
+    access_secret = "x6IW20OMPt9Ms3Rs2Dc8d8iWfbosFOvcrMHfEv8h"
     requrl = "https://identify-ap-southeast-1.acrcloud.com/v1/identify"
 
     http_method = "POST"
@@ -48,6 +48,8 @@ def make_api_call(filename):
 
     response = r.post(requrl, files=files, data=data)
     response.encoding = "utf-8"
-
+    
 
     return response
+
+    
