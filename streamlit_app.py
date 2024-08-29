@@ -4,7 +4,7 @@ import wave
 import os
 import json
 import requests
-from api_ca import make_api_call  # We'll create this function
+from api_ca import make_api_call  
 
 # Parameters for audio recording
 CHUNK = 1024
@@ -80,7 +80,9 @@ def identify_song():
         st.write(f"Album: {album}")
         st.write(f"Spotify Track URL: {spotify_track_url}")
         st.write(f"YouTube Video URL: {youtube_video_url}")
-
+        from playsound import playsound
+        playsound('song_mil_gaya.mp3')
+        
     except KeyError as e:
         st.error(f"Error processing response: {e}")
 
