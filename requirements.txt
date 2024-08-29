@@ -1,2 +1,6 @@
-requests
+streamlit
 pyaudio
+wave
+os-sys
+requests
+playsound
