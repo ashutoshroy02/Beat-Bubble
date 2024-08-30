@@ -1,2 +1,6 @@
 sounddevice
 requests
+streamlit
+requests
+python-dotenv
+pybase64
