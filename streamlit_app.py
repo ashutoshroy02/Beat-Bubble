@@ -1,5 +1,5 @@
 import streamlit as st
-import pyaudio
+import sounddevice as sd
 import wave
 import os
 import json
@@ -8,34 +8,27 @@ from api_ca import make_api_call
 
 # Parameters for audio recording
 CHUNK = 1024
-FORMAT = pyaudio.paInt16
+FORMAT = 'int16'
 CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 10
 WAVE_OUTPUT_FILENAME = "song.wav"
 
 def record_audio():
-    p = pyaudio.PyAudio()
-    stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK)
-    
     st.text("Recording...")
-    frames = []
-    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-        data = stream.read(CHUNK)
-        frames.append(data)
+    
+    # Recording audio
+    audio_data = sd.rec(int(RECORD_SECONDS * RATE), samplerate=RATE, channels=CHANNELS, dtype=FORMAT)
+    sd.wait()  # Wait until recording is finished
     st.text("Recording finished.")
     
-    stream.stop_stream()
-    stream.close()
-    p.terminate()
-    
-    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
-    wf.setnchannels(CHANNELS)
-    wf.setsampwidth(p.get_sample_size(FORMAT))
-    wf.setframerate(RATE)
-    wf.writeframes(b''.join(frames))
-    wf.close()
-    
+    # Saving the recorded audio as a .wav file
+    with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(2)  # 2 bytes for 'int16' format
+        wf.setframerate(RATE)
+        wf.writeframes(audio_data.tobytes())
+
 def identify_song():
     if not os.path.isfile(WAVE_OUTPUT_FILENAME):
         st.error("No recorded audio found. Please record a song first.")
@@ -87,7 +80,7 @@ def identify_song():
         st.error(f"Error processing response: {e}")
 
 def main():
-    st.title("Song Identification App")
+    st.title("BEAT BUBBLE")
 
     if st.button("Record Song"):
         record_audio()
