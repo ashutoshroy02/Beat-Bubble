@@ -169,6 +169,8 @@ def record_audio():
     # Saving the recorded audio as a .wav file
     audio.export(WAVE_OUTPUT_FILENAME, format="wav")
 
+    st.text("Recording finished.")
+
 def identify_song():
     if not os.path.isfile(WAVE_OUTPUT_FILENAME):
         st.error("No recorded audio found. Please record a song first.")
