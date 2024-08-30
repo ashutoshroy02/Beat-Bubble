@@ -142,8 +142,6 @@ st.markdown("<p style='opacity: 0; animation: fadeIn 10s ease forwards; font-siz
 
 
 #backend
-import sounddevice as sd
-import wave
 import os
 import json
 import requests
