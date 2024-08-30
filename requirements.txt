@@ -4,3 +4,4 @@ streamlit
 requests
 python-dotenv
 pybase64
+pydub
