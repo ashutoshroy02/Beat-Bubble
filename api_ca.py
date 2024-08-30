@@ -7,9 +7,12 @@ def make_api_call(filename):
     import sys
     import time
     import requests as r
+    from dotenv import load_dotenv
 
-    access_key = "b86e8e91257ec0cac71546cd036b5cf5"
-    access_secret = "x6IW20OMPt9Ms3Rs2Dc8d8iWfbosFOvcrMHfEv8h"
+     #constant
+    load_dotenv()
+    access_key = os.getenv("access_key")
+    access_secret = os.getenv("access_secret")
     requrl = "https://identify-ap-southeast-1.acrcloud.com/v1/identify"
 
     http_method = "POST"
