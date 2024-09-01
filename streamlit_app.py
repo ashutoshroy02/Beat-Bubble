@@ -130,9 +130,14 @@ st.markdown("<h1 style='color: white; opacity: 0; animation: fadeIn 8s ease forw
             "<span style='font-weight:bold; font-family: serif; font-size: 70px; font-weight:bold;'>BEAT BUBBLE </span>"
             "</h1>", unsafe_allow_html=True)
 
-st.markdown("<p style='opacity: 0; animation: fadeIn 10s ease forwards; font-size: 20px;'><strong></strong><br>" "what if we don't know the name of the song we want to listen ? "
-            "what if we only know a <strong>tune</strong> or <strong>just the hum</strong> we want to listen to?<br>"
-            "<i><strong>BEAT BUBBLE aims to solve that</strong></i>. <br>" "we will find the song that you just sung or remembered a little bit !</p>", unsafe_allow_html=True)
+st.markdown(
+    "<p style='animation: fadeIn 10s ease forwards; font-size: 22px;'>"
+    "Can't recall the name of that song? Just hum it.<br>"
+    "<strong>Beat Bubble</strong> will find it for you.<br>"
+    "Your melody, our match. 🎵"
+    "</p>", 
+    unsafe_allow_html=True
+)
 
 # st.markdown(f'''
 # <a href='https://www.youtube.com/watch?v=fDcFn_MuhKA'><button style="font-weight:bold; opacity: 0; animation: fadeIn 5s ease forwards; background-color:black; border-radius: 20px; padding: 10px 20px; border: none; color: white;">get started</button></a>
