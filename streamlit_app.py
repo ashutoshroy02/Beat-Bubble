@@ -165,6 +165,10 @@ RATE = 44100
 RECORD_SECONDS = 10
 WAVE_OUTPUT_FILENAME = "song.wav"
 
+# Initialize session state for history
+if 'history' not in st.session_state:
+    st.session_state['history'] = []
+    
 def record_audio():
     st.text("Recording...")
     
@@ -229,6 +233,18 @@ def identify_song():
 def main():
     # st.title("BEAT BUBBLE")
 
+     # Sidebar for history
+    st.sidebar.title("Song History 🎶")
+    if st.session_state['history']:
+        for entry in st.session_state['history']:
+            st.sidebar.write(f"**Track Name:** {entry['track_name']}")
+            st.sidebar.write(f"**Artist:** {entry['artist']}")
+            st.sidebar.write(f"**Album:** {entry['album']}")
+            st.sidebar.write(f"[Spotify Link]({entry['spotify_url']}) | [YouTube Link]({entry['youtube_url']})")
+            st.sidebar.write("---")
+    else:
+        st.sidebar.write("No history yet. Start singing!")
+        
     if st.button("TANSEN IT ☠️"):
         record_audio()
         time.sleep(11)
