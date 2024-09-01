@@ -245,7 +245,7 @@ def main():
     else:
         st.sidebar.write("No history yet. Start singing!")
         
-    if st.button("TANSEN IT ☠️"):
+    if st.button("TANSEN ☠️"):
         record_audio()
         time.sleep(11)
         identify_song()
