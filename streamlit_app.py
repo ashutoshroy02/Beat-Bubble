@@ -257,13 +257,13 @@ def main():
     else:
         st.sidebar.write("No history yet. Start singing!")
         
-    st.markdown('<div class="centered-button">', unsafe_allow_html=True)
+    # st.markdown('<div class="centered-button">', unsafe_allow_html=True)
     if st.button("RECORD☠️"):
         record_audio()
         # time.sleep(11)
     if st.button("TANSEN☠️"):
         identify_song()
-    st.markdown('</div>', unsafe_allow_html=True)
+    # st.markdown('</div>', unsafe_allow_html=True)
 
     
 
