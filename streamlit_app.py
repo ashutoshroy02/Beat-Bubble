@@ -138,7 +138,19 @@ st.markdown(
     "</p>", 
     unsafe_allow_html=True
 )
-
+st.markdown(
+    """
+    <style>
+    .centered-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 # st.markdown(f'''
 # <a href='https://www.youtube.com/watch?v=fDcFn_MuhKA'><button style="font-weight:bold; opacity: 0; animation: fadeIn 5s ease forwards; background-color:black; border-radius: 20px; padding: 10px 20px; border: none; color: white;">get started</button></a>
 # ''', unsafe_allow_html=True)
@@ -245,10 +257,13 @@ def main():
     else:
         st.sidebar.write("No history yet. Start singing!")
         
-    if st.button("TANSEN ☠️"):
+    st.markdown('<div class="centered-button">', unsafe_allow_html=True)
+    if st.button("RECORD☠️"):
         record_audio()
-        time.sleep(11)
+        # time.sleep(11)
+    if st.button("TANSEN☠️"):
         identify_song()
+    st.markdown('</div>', unsafe_allow_html=True)
 
     
 
