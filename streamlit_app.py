@@ -130,27 +130,10 @@ st.markdown("<h1 style='color: white; opacity: 0; animation: fadeIn 8s ease forw
             "<span style='font-weight:bold; font-family: serif; font-size: 70px; font-weight:bold;'>BEAT BUBBLE </span>"
             "</h1>", unsafe_allow_html=True)
 
-st.markdown(
-    "<p style='animation: fadeIn 10s ease forwards; font-size: 22px;'>"
-    "Can't recall the name of that song? Just hum it.<br>"
-    "<strong>Beat Bubble</strong> will find it for you.<br>"
-    "Your melody, our match. 🎵"
-    "</p>", 
-    unsafe_allow_html=True
-)
-st.markdown(
-    """
-    <style>
-    .centered-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("<p style='opacity: 0; animation: fadeIn 10s ease forwards; font-size: 20px;'><strong></strong><br>" "what if we don't know the name of the song we want to listen ? "
+            "what if we only know a <strong>tune</strong> or <strong>just the hum</strong> we want to listen to?<br>"
+            "<i><strong>BEAT BUBBLE aims to solve that</strong></i>. <br>" "we will find the song that you just sung or remembered a little bit !</p>", unsafe_allow_html=True)
+
 # st.markdown(f'''
 # <a href='https://www.youtube.com/watch?v=fDcFn_MuhKA'><button style="font-weight:bold; opacity: 0; animation: fadeIn 5s ease forwards; background-color:black; border-radius: 20px; padding: 10px 20px; border: none; color: white;">get started</button></a>
 # ''', unsafe_allow_html=True)
@@ -158,46 +141,72 @@ st.markdown(
 
 
 
-#backend
-import os
-import json
+import streamlit as st
+import sounddevice as sd
+import numpy as np
+from scipy.io.wavfile import write
+import io
 import requests
+import json
 import time
-from pydub import AudioSegment
-from pydub.playback import play
-from pydub.generators import Sine
-from pydub import playback
-from api_ca import make_api_call  
+import os
+import base64
+import hashlib
+import hmac
 
 # Parameters for audio recording
-CHUNK = 1024
-FORMAT = 'int16'
-CHANNELS = 1
 RATE = 44100
 RECORD_SECONDS = 10
-WAVE_OUTPUT_FILENAME = "song.wav"
 
 # Initialize session state for history
 if 'history' not in st.session_state:
     st.session_state['history'] = []
-    
+
 def record_audio():
     st.text("Recording...")
     
-   # Generate a silent audio segment for the duration of RECORD_SECONDS
-    audio = AudioSegment.silent(duration=RECORD_SECONDS * 1000)
+    audio_data = sd.rec(int(RECORD_SECONDS * RATE), samplerate=RATE, channels=1, dtype='int16')
+    sd.wait()
     
-    # Saving the recorded audio as a .wav file
-    audio.export(WAVE_OUTPUT_FILENAME, format="wav")
-
+    audio_bytes = io.BytesIO()
+    write(audio_bytes, RATE, audio_data)
+    audio_bytes.seek(0)  # Rewind the stream to the beginning
+    
     st.text("Recording finished.")
+    return audio_bytes
 
-def identify_song():
-    if not os.path.isfile(WAVE_OUTPUT_FILENAME):
-        st.error("No recorded audio found. Please record a song first.")
-        return
+def make_api_call(audio_bytes):
+    access_key = os.getenv("access_key")
+    access_secret = os.getenv("access_secret")
+    requrl = "https://identify-ap-southeast-1.acrcloud.com/v1/identify"
+    http_method = "POST"
+    http_uri = "/v1/identify"
+    data_type = "audio"
+    signature_version = "1"
+    timestamp = time.time()
 
-    response = make_api_call(WAVE_OUTPUT_FILENAME)
+    string_to_sign = f"{http_method}\n{http_uri}\n{access_key}\n{data_type}\n{signature_version}\n{str(timestamp)}"
+    sign = base64.b64encode(hmac.new(access_secret.encode('ascii'), string_to_sign.encode('ascii'), digestmod=hashlib.sha1).digest()).decode('ascii')
+
+    files = [
+        ('sample', ('sample.wav', audio_bytes, 'audio/wav'))
+    ]
+
+    data = {
+        'access_key': access_key,
+        'sample_bytes': audio_bytes.getbuffer().nbytes,
+        'timestamp': str(timestamp),
+        'signature': sign,
+        'data_type': data_type,
+        'signature_version': signature_version
+    }
+
+    response = requests.post(requrl, files=files, data=data)
+    response.encoding = "utf-8"
+    return response
+
+def identify_song(audio_bytes):
+    response = make_api_call(audio_bytes)
     response_data = json.loads(response.text)
 
     try:
@@ -211,13 +220,7 @@ def identify_song():
             return
 
         track_name = music_info.get('title', 'Unknown Title')
-        
-        if 'spotify' in music_info.get('external_metadata', {}):
-            spotify_artists = music_info['external_metadata']['spotify'].get('artists', [])
-            artist = spotify_artists[0]['name'] if spotify_artists else 'Unknown Artist'
-        else:
-            artist = 'Unknown Artist'
-
+        artist = music_info.get('artists', [{}])[0].get('name', 'Unknown Artist')
         album = music_info.get('album', {}).get('name', 'Unknown Album')
 
         if 'spotify' in music_info.get('external_metadata', {}):
@@ -236,16 +239,11 @@ def identify_song():
         st.write(f"Album: {album}")
         st.write(f"Spotify Track URL: {spotify_track_url}")
         st.write(f"YouTube Video URL: {youtube_video_url}")
-        # from playsound import playsound
-        # playsound('song_mil_gaya.mp3')
         
     except KeyError as e:
         st.error(f"Error processing response: {e}")
 
 def main():
-    # st.title("BEAT BUBBLE")
-
-     # Sidebar for history
     st.sidebar.title("Song History 🎶")
     if st.session_state['history']:
         for entry in st.session_state['history']:
@@ -257,15 +255,9 @@ def main():
     else:
         st.sidebar.write("No history yet. Start singing!")
         
-    # st.markdown('<div class="centered-button">', unsafe_allow_html=True)
-    if st.button("RECORD☠️"):
-        record_audio()
-        # time.sleep(11)
-    if st.button("TANSEN☠️"):
-        identify_song()
-    # st.markdown('</div>', unsafe_allow_html=True)
-
-    
-
+    if st.button("☠️"):
+        audio_bytes = record_audio()
+        identify_song(audio_bytes)
+ 
 if __name__ == "__main__":
     main()
