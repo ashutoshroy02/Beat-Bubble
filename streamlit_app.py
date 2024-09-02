@@ -1,3 +1,5 @@
+# access_key = "b86e8e91257ec0cac71546cd036b5cf5"
+# access_secret = "x6IW20OMPt9Ms3Rs2Dc8d8iWfbosFOvcrMHfEv8h"
 #frontend
 
 import streamlit as st
