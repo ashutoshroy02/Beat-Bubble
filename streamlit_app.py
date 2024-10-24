@@ -1,5 +1,6 @@
 # access_key = "b86e8e91257ec0cac71546cd036b5cf5"
 # access_secret = "x6IW20OMPt9Ms3Rs2Dc8d8iWfbosFOvcrMHfEv8h"
+
 #frontend
 
 import streamlit as st
@@ -140,15 +141,11 @@ st.markdown("<p style='opacity: 0; animation: fadeIn 10s ease forwards; font-siz
 # <a href='https://www.youtube.com/watch?v=fDcFn_MuhKA'><button style="font-weight:bold; opacity: 0; animation: fadeIn 5s ease forwards; background-color:black; border-radius: 20px; padding: 10px 20px; border: none; color: white;">get started</button></a>
 # ''', unsafe_allow_html=True)
 
-
-
-
 import streamlit as st
-import sounddevice as sd
-import numpy as np
+from audio_recorder_streamlit import audio_recorder
 from scipy.io.wavfile import write
 import io
-import requests
+import requests   
 import json
 import time
 import os
@@ -160,55 +157,63 @@ import hmac
 RATE = 44100
 RECORD_SECONDS = 10
 
-# Initialize session state for history
+# # Initialize session state for history
 if 'history' not in st.session_state:
     st.session_state['history'] = []
 
+# Function to record audio and save it to a file
 def record_audio():
-    st.text("Recording...")
     
-    audio_data = sd.rec(int(RECORD_SECONDS * RATE), samplerate=RATE, channels=1, dtype='int16')
-    sd.wait()
+    audio_data = audio_recorder(pause_threshold=1,
+    sample_rate=RATE,
+    recording_color="#e8b62c",
+    neutral_color="#6aa36f",
+    icon_size="3x")
     
-    audio_bytes = io.BytesIO()
-    write(audio_bytes, RATE, audio_data)
-    audio_bytes.seek(0)  # Rewind the stream to the beginning
+    if audio_data:
+        # st.text("Recording...")
+        file_path = "song.wav"
+        with open(file_path, "wb") as f:
+            f.write(audio_data)  # Save the recorded audio to file
+        return file_path
+    else:
+        return 
     
-    st.text("Recording finished.")
-    return audio_bytes
 
-def make_api_call(audio_bytes):
-    access_key = os.getenv("access_key")
-    access_secret = os.getenv("access_secret")
+
+def make_api_call(audio_file_path):
+    access_key = "3f2508ad4cea3f7817512c045c6a061b"
+    access_secret = "WSwB6Orpx1Mxt1EvfdGuS2Jryv2UM7CPb5EnubzW"
     requrl = "https://identify-ap-southeast-1.acrcloud.com/v1/identify"
     http_method = "POST"
     http_uri = "/v1/identify"
     data_type = "audio"
     signature_version = "1"
     timestamp = time.time()
-
+    
     string_to_sign = f"{http_method}\n{http_uri}\n{access_key}\n{data_type}\n{signature_version}\n{str(timestamp)}"
     sign = base64.b64encode(hmac.new(access_secret.encode('ascii'), string_to_sign.encode('ascii'), digestmod=hashlib.sha1).digest()).decode('ascii')
+    
+    with open(audio_file_path, 'rb') as audio_file:
+        files = [
+            ('sample', ('song.wav', audio_file, 'audio/wav'))
+        ]
 
-    files = [
-        ('sample', ('sample.wav', audio_bytes, 'audio/wav'))
-    ]
+        data = {
+            'access_key': access_key,
+            'sample_bytes': os.path.getsize(audio_file_path),
+            'timestamp': str(timestamp),
+            'signature': sign,
+            'data_type': data_type,
+            'signature_version': signature_version
+        }
 
-    data = {
-        'access_key': access_key,
-        'sample_bytes': audio_bytes.getbuffer().nbytes,
-        'timestamp': str(timestamp),
-        'signature': sign,
-        'data_type': data_type,
-        'signature_version': signature_version
-    }
+        response = requests.post(requrl, files=files, data=data)
+        response.encoding = "utf-8"
+        return response
 
-    response = requests.post(requrl, files=files, data=data)
-    response.encoding = "utf-8"
-    return response
-
-def identify_song(audio_bytes):
-    response = make_api_call(audio_bytes)
+def identify_song(audio_file_path):
+    response = make_api_call(audio_file_path)
     response_data = json.loads(response.text)
 
     try:
@@ -257,9 +262,17 @@ def main():
     else:
         st.sidebar.write("No history yet. Start singing!")
         
-    if st.button("☠️"):
-        audio_bytes = record_audio()
-        identify_song(audio_bytes)
+    audio_file_path = record_audio()
+    # Check if audio was recorded
+    if audio_file_path:
+        st.session_state['audio_file_path'] = audio_file_path
+    
+    # Ensure audio file path is valid before identifying the song
+    if 'audio_file_path' in st.session_state and st.session_state['audio_file_path']:
+        if st.button("Identify Song"):
+            identify_song(st.session_state['audio_file_path'])
+    else:
+        st.warning("No audio recorded yet. Please record a song snippet.")
  
 if __name__ == "__main__":
     main()
