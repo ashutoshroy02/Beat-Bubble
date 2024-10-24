@@ -272,7 +272,7 @@ def main():
         if st.button("Identify Song"):
             identify_song(st.session_state['audio_file_path'])
     else:
-        st.warning("No audio recorded yet. Please record a song snippet.")
+        st.warning("No audio recorded yet. Please record a song snippet for 10 sec.")
  
 if __name__ == "__main__":
     main()
