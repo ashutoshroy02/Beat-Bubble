@@ -1,5 +1,4 @@
 streamlit
+audio-recorder-streamlit
+scipy
 requests
-python-dotenv
-pybase64
-
