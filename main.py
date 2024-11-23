@@ -170,15 +170,15 @@ def record_audio():
     recording_color="#e8b62c",
     neutral_color="#6aa36f",
     icon_size="3x")
-    
     if audio_data:
-        # st.text("Recording...")
+        st.audio(audio_data)
         file_path = "song.wav"
         with open(file_path, "wb") as f:
             f.write(audio_data)  # Save the recorded audio to file
         return file_path
     else:
         return 
+    
     
 
 
