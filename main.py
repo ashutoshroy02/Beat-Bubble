@@ -164,8 +164,9 @@ if 'history' not in st.session_state:
 # Function to record audio and save it to a file
 def record_audio():
     
-    audio_data = audio_recorder(pause_threshold=1,
+    audio_data = audio_recorder(pause_threshold=4,
     sample_rate=RATE,
+    icon_name="fa-solid fa-microphone-lines",
     recording_color="#e8b62c",
     neutral_color="#6aa36f",
     icon_size="3x")
