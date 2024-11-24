@@ -35,25 +35,17 @@ beat_bubble/
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/<your-username>/beat_bubble.git
+   git clone [https://github.com/ashutoshroy02/SONG-IDENTIFICATION.git]
    cd beat_bubble
    ```
 
-2. **Set Up a Virtual Environment (Optional but Recommended)**
-   Create a virtual environment to avoid conflicts with global Python packages:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Linux/macOS
-   venv\Scripts\activate      # On Windows
-   ```
-
-3. **Install Dependencies**
+2. **Install Dependencies**
    Use the `requirements.txt` file to install all necessary libraries:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Set Up ACRCloud API Credentials**
+#. **Set Up ACRCloud API Credentials**
    - Sign up for an account on [ACRCloud](https://www.acrcloud.com/).
    - Create a new project and obtain your `Access Key` and `Access Secret`.
    - Update the `access_key` and `access_secret` in `backend/api_handler.py`.
@@ -95,9 +87,9 @@ beat_bubble/
 ### **Contributing**
 Contributions are welcome! If you’d like to improve the project:
 1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature-name`.
-3. Commit your changes: `git commit -m "Add your feature"`.
-4. Push the branch: `git push origin feature/your-feature-name`.
+2. Create a new branch: `
+3. Commit your changes: `
+4. Push the branch: `
 5. Submit a pull request.
 
 ---
@@ -110,10 +102,6 @@ This project is licensed under the MIT License.
 ### **Acknowledgments**
 - [Streamlit](https://streamlit.io/) for an excellent framework for building UI.
 - [ACRCloud](https://www.acrcloud.com/) for their powerful music recognition API.
-
----
-
-This `README.md` provides a comprehensive guide for anyone looking to understand, install, and contribute to the project. Let me know if you’d like to refine or add specific sections!e for testing..
 
 ```http
   https://console.acrcloud.com/ 
