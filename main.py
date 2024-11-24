@@ -14,7 +14,6 @@ def main():
             song_details = identify_song(audio_file_path)
             if "error" not in song_details:
                 st.success("Song Identified!")
-                st.write(f"{song_details['track_id']}")
                 st.write(f"**Song:** {song_details['track_name']}")
                 st.write(f"**Artist:** {song_details['artist']}")
                 st.write(f"**Genre:** {song_details['Genre']}")
