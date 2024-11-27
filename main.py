@@ -8,9 +8,9 @@ def main():
     render_frontend()
     st.write("Please record a song snippet.")
     st.write("Green mic 🟩- Not Recording.... Yellow mic 🟨- Recording")
-    st.write("Press Green mic and Start Recording and Press again to Stop 🔋 ")
-    st.write("Wait 2 Sec and Check the preview of Recording ✈️")
-    st.write("Click Identify and wait 👌")
+    st.write("1. Press Green mic and Start Recording and Press again to Stop 🔋 ")
+    st.write("2. Wait 2 Sec and Check the preview of Recording ✈️")
+    st.write("3. Click Identify and wait 👌")
     
     audio_file_path = record_audio()
     if audio_file_path:
