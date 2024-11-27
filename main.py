@@ -8,7 +8,7 @@ def main():
     render_frontend()
     st.write("Please record a song snippet.")
     st.write("Green mic 🟩- Not Recording.... Yellow mic 🟨- Recording")
-    st.write("1. Press Green mic and Start Recording and Press again to Stop 🔋 ")
+    st.write("1. Press Green mic and Start Recording for 7-8 Sec and Press again to Stop 🔋 ")
     st.write("2. Wait 2 Sec and Check the preview of Recording ✈️")
     st.write("3. Click Identify and wait 👌")
     
