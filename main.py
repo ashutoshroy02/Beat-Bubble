@@ -7,7 +7,11 @@ def main():
     #load_background
     render_frontend()
     st.write("Please record a song snippet.")
-    st.write("Yellow mic - recording ... Green mic- not recording ")
+    st.write("Green mic 🟩- Not Recording.... Yellow mic 🟨- Recording")
+    st.write("Press Green mic and Start Recording and Press again to Stop 🔋 ")
+    st.write("Wait 2 Sec and Check the preview of Recording ✈️")
+    st.write("Click Identify and wait 👌")
+    
     audio_file_path = record_audio()
     if audio_file_path:
         if st.button("Identify Song"):
