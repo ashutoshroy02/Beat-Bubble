@@ -30,7 +30,7 @@ beat_bubble/
 ```
 
 ---
-### Live LINK :  https://beatbubble.streamlit.app 
+### Live LINK :  https://beatbubblefind.streamlit.app 
 
 ### **Installation**
 
