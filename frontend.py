@@ -114,10 +114,18 @@ a:hover button {
 
 # HTML content
 html = """
-<section id="up"></section>
-<section id="down"></section>
-<section id="left"></section>
-<section id="right"></section>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7603754372960896"
+        crossorigin="anonymous"></script>  
+</head>
+<body>
+    <section id="up"></section>
+    <section id="down"></section>
+    <section id="left"></section>
+    <section id="right"></section>
+</body>
 """
 
 
