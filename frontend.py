@@ -133,4 +133,4 @@ def render_frontend():
     st.markdown(css, unsafe_allow_html=True)
     st.markdown(html, unsafe_allow_html=True)
     st.markdown("<h1 style='color: white; animation: fadeIn 8s ease;'>BEAT BUBBLE</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 20px;'>What if we don't know the name of a song but remember a tune?<br><strong>BEAT BUBBLE</strong> will find it for you!</p>", unsafe_allow_html=True)
+    st.markdown("<p style='font-size: 20px;'>What if we don't know the name of a song but remember a tune?<br><strong>BEAT BUBBLE</strong> will find it for you! - Ashu & Sejal</p>", unsafe_allow_html=True)
