@@ -26,6 +26,7 @@ def main():
                 st.write(f"**Language:** {song_details['Language']}")
                 
                 st.write(f"[Spotify Link]({song_details['spotify_url']}) | [YouTube Link]({song_details['youtube_url']})")
+                st.write(f"Buy me a cofffe : [https://buymeacoffee.com/ashu2003rof]")
             else:
                 st.error(song_details["error"])
         else:
