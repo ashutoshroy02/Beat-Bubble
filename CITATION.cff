@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this repo, please cite it using the following metadata."
+title: "Beat Bubble: A Music Identification App"
+version: 1.0.0
+date-released: 2025-03-01
+
+authors:
+  - family-names: Roy
+    given-names: Ashutosh
+  - family-names: Sahu
+    given-names: Sejal
